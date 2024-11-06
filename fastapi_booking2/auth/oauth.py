@@ -6,7 +6,7 @@ from jose.exceptions import JWEError, JWTError
 from sqlalchemy.orm import Session
 from db.database import get_db
 from fastapi import Depends, HTTPException, status
-from db import db_user
+from db import db_users
  
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -43,7 +43,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
   except JWEError:
     raise credentials_exception
   
-  user = db_user.get_user_by_username(db, username)
+  user = db_users.get_user_by_username(db, username)
   
   if user is None:
     raise credentials_exception
