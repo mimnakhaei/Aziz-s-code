@@ -44,7 +44,7 @@ class UserCreate(UserBase):
 
 class UserDisplay(UserBase):
     id: int
-    rooms: List[RoomDisplay] = []
+    #rooms: List[RoomDisplay] = []
     
     class Config:
         orm_mode = True

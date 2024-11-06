@@ -10,7 +10,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
     
-    rooms = relationship("Room", back_populates="user")
+    #rooms = relationship("Room", back_populates="user")
     reviews = relationship("Review", back_populates="user")
     bookings = relationship("Booking", back_populates="user")
     hotels = relationship("Hotel", back_populates="user")
