@@ -5,7 +5,7 @@ from sqlalchemy.orm.session import Session
 from db.database import get_db
 from db import models
 from db.hash import Hash
-from auth import oauth2
+from auth import oauth
 
 router = APIRouter(
     tags=["authentication"]
@@ -19,7 +19,7 @@ def get_token(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depe
     if not Hash.verify(user.password, request.password):
        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Incorrect password")
    
-    access_token = oauth2.create_access_token(data={"sub": user.username})
+    access_token = oauth.create_access_token(data={"sub": user.username})
     
     return{
         "access_token": access_token,
