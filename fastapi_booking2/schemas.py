@@ -33,12 +33,10 @@ class RoomDisplay(RoomBase):
     id: int
     hotel_id: int
     reviews: List[ReviewDisplay] = []
-    #user: 'UserBase'
-    user: Optional[UserBase] = None  # Allow user to be None
+    #user: Optional[UserBase] = None  # Allow user to be None
     
     class Config:
         orm_mode = True
-
 
 
 class UserCreate(UserBase):
