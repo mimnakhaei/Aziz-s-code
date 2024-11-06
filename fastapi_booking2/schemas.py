@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime
 
@@ -19,7 +19,7 @@ class ReviewDisplay(ReviewBase):
 # because UserBase needed on RoomDisplay, so defined it here.      
 class UserBase(BaseModel):
     username: str
-    email: EmailStr
+    email: str
 
 class RoomBase(BaseModel):
     type: str

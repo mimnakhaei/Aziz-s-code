@@ -9,7 +9,7 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
     password = Column(String)
-    #hashed_password = Column(String)
+    
     rooms = relationship("Room", back_populates="user")
     reviews = relationship("Review", back_populates="user")
     bookings = relationship("Booking", back_populates="user")
