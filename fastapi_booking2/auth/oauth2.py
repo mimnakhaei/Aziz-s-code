@@ -11,7 +11,7 @@ from db import db_users
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
  
-SECRET_KEY = '80bd26ccba17c7d029a4d814313c884525bbbada847f3c6ad02d3ced5a324c68'
+SECRET_KEY = 'b943d9d0956b7c311046f38d30936b06ffc02407a1395a5189bb44bd34207138'
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
  

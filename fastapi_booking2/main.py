@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from auth import authentication
 from db.database import engine, Base
 from routers import users, hotels, rooms, reviews, bookings
 
@@ -6,6 +7,7 @@ from routers import users, hotels, rooms, reviews, bookings
 
 app = FastAPI()
 
+app.include_router(authentication.router)
 app.include_router(users.router)
 app.include_router(hotels.router)
 app.include_router(rooms.router)
