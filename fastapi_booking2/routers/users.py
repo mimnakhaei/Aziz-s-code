@@ -4,7 +4,9 @@ from db import models, database
 from schemas import UserCreate, UserDisplay
 from db.hash import Hash
 from db.models import User
-from auth.oauth2 import get_current_user
+#from auth.oauth2 import get_current_user
+from typing import List
+from db import db_users
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
