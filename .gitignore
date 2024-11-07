@@ -1,3 +1,4 @@
 fastapi_booking2/venv_bash
 fastapi_booking2/fastapi_booking2.db
+fastapi_booking2/routers/__pycache__
 **/__pycache__
