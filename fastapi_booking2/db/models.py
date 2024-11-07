@@ -31,7 +31,7 @@ class Room(Base):
     id = Column(Integer, primary_key=True, index=True)
     hotel_id = Column(Integer, ForeignKey('hotels.id'))
     #user_id = Column(Integer, ForeignKey('users.id'))
-    type = Column(String)
+    room_type = Column(String)
     room_number = Column(String, unique=True)
     availability = Column(Boolean, default=True)
     

@@ -22,7 +22,7 @@ class UserBase(BaseModel):
     email: str
 
 class RoomBase(BaseModel):
-    type: str
+    room_type: str
     room_number: str
     availability: Optional[bool] = True
 
