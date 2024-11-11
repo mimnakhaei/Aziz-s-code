@@ -1,12 +1,13 @@
+from auth.oauth2 import get_current_user
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from db.database import get_db
 from schemas import UserCreate, UserDisplay
 from db.hash import Hash
 from db.models import User
-#from auth.oauth2 import get_current_user
 from typing import List
 from db import db_users
+from schemas import UserAuth
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -22,7 +23,7 @@ def create_user(request: UserCreate, db: Session = Depends(get_db)):
 
 # Get a user
 @router.get("/{id}", response_model=UserDisplay)
-def get_user(id: int, db: Session = Depends(get_db)):
+def get_user(id: int, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
     user = db.query(User).filter(User.id == id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")

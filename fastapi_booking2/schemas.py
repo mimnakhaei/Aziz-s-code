@@ -79,3 +79,9 @@ class BookingDisplay(BookingBase):
     
     class Config:
         orm_mode = True
+
+## for authentication
+class UserAuth(BaseModel):
+    id: int
+    username: str
+    email: str
