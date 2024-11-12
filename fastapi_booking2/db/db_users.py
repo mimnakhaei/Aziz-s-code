@@ -9,7 +9,7 @@ def create_user(db: Session, user: UserCreate):
      
     #db_user = models.User(username=user.username, email=user.email, hashed_password=user.password)
     hashed_password = Hash.bcrypt(user.password)  # Hashing the password
-    db_user = models.User(username=user.username, email=user.email, hashed_password=hashed_password)
+    db_user = models.User(username=user.username, email=user.email, hashed_password=hashed_password, is_admin=user.is_admin)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -34,6 +34,7 @@ def update_user(db: Session, user_id: int, user: UserCreate):
     if db_user:
         db_user.username = user.username
         db_user.email = user.email
+        db_user.is_admin = user.is_admin
         db_user.hashed_password = user.password  # Ideally, hash the password before saving
         db.commit()
         db.refresh(db_user)

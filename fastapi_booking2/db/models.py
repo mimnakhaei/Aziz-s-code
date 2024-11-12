@@ -9,6 +9,7 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
     password = Column(String)
+    is_admin = Column(Boolean)
     
     reviews = relationship("Review", back_populates="user")
     bookings = relationship("Booking", back_populates="user")
@@ -43,7 +44,7 @@ class Review(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     content = Column(String)
     review_time = Column(DateTime, default=datetime.utcnow)
-    
+
     user = relationship("User", back_populates="reviews")
     room = relationship("Room", back_populates="reviews")
 

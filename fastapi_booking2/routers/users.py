@@ -15,7 +15,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 @router.post("/", response_model=UserDisplay)
 def create_user(request: UserCreate, db: Session = Depends(get_db)):
     hashed_password = Hash.bcrypt(request.password)
-    new_user = User(username=request.username, email=request.email, password=hashed_password)
+    new_user = User(username=request.username, email=request.email, password=hashed_password, is_admin=request.is_admin)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)

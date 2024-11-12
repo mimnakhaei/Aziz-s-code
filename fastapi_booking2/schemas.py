@@ -41,9 +41,11 @@ class RoomDisplay(RoomBase):
 
 class UserCreate(UserBase):
     password: str
+    is_admin: bool
 
 class UserDisplay(UserBase):
     id: int
+    is_admin: bool
     #rooms: List[RoomDisplay] = []
     
     class Config:
