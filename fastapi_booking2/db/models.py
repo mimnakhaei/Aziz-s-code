@@ -10,7 +10,6 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     password = Column(String)
     
-    #rooms = relationship("Room", back_populates="user")
     reviews = relationship("Review", back_populates="user")
     bookings = relationship("Booking", back_populates="user")
     hotels = relationship("Hotel", back_populates="user")
@@ -18,10 +17,9 @@ class User(Base):
 class Hotel(Base):
     __tablename__ = 'hotels'
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
     name = Column(String)
     address = Column(String)
-    # owner_id = Column(Integer, ForeignKey('users.id'))
-    user_id = Column(Integer, ForeignKey('users.id'))
     
     user = relationship("User", back_populates="hotels")
     rooms = relationship("Room", back_populates="hotel")
@@ -30,13 +28,11 @@ class Room(Base):
     __tablename__ = 'rooms'
     id = Column(Integer, primary_key=True, index=True)
     hotel_id = Column(Integer, ForeignKey('hotels.id'))
-    #user_id = Column(Integer, ForeignKey('users.id'))
     room_type = Column(String)
     room_number = Column(String, unique=True)
     availability = Column(Boolean, default=True)
     
     hotel = relationship("Hotel", back_populates="rooms")
-    #user = relationship("User", back_populates="rooms")
     reviews = relationship("Review", back_populates="room")
     bookings = relationship("Booking", back_populates="room")
 
@@ -47,6 +43,7 @@ class Review(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     content = Column(String)
     review_time = Column(DateTime, default=datetime.utcnow)
+    
     user = relationship("User", back_populates="reviews")
     room = relationship("Room", back_populates="reviews")
 
