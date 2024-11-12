@@ -2,7 +2,7 @@ from auth.oauth2 import get_current_user
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from db.database import get_db
-from schemas import UserCreate, UserDisplay
+from schemas import UserCreate, UserDisplay, UserUpdate
 from db.hash import Hash
 from db.models import User
 from typing import List
@@ -36,9 +36,29 @@ def get_all_users(db: Session = Depends(get_db)):
 
 # Update user
 @router.put("/{user_id}", response_model=UserDisplay)
-def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)):
+def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
+    currentlyStored = db_users.get_by_id(db, user_id)
+
+    if not currentlyStored:
+        raise HTTPException(404, "User not found")
+    
+    # Check if is_admin status can be changed
+    if(currentlyStored.is_admin != user.is_admin):
+        if not current_user.is_admin:
+            raise HTTPException(403, "You're not an admin so you are not allowed to change the is_admin status")
+        if not user.is_admin and db_users.get_admin_count() < 2:
+            raise HTTPException(409, "You're the only admin so you cannot revoke your own admin status")
+        
+     # Ensure that only the user themselves or an admin can update
+    # if user_id is not currentlyStored.user_id or not current_user.is_admin:
+    #     raise HTTPException(403, 'Not allowed')
+    
+    # return db_users.update_user(db, user_id, user)
+    if user_id != currentlyStored.id and not current_user.is_admin:
+        raise HTTPException(403, 'Not allowed')
+    
     return db_users.update_user(db, user_id, user)
-    #return {"detail": "User updated successfully"}
+    
 
 # Delete user
 @router.delete("/{user_id}")

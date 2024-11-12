@@ -51,6 +51,13 @@ class UserDisplay(UserBase):
     class Config:
         orm_mode = True
 
+class UserUpdate(UserBase):
+    id:int
+    password: str
+    is_admin: bool
+    class Config:
+        orm_mode = True
+
 class HotelBase(BaseModel):
     name: str
     address: str
