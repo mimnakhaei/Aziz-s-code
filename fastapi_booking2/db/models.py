@@ -40,7 +40,6 @@ class Room(Base):
     reviews = relationship("Review", back_populates="room")
     bookings = relationship("Booking", back_populates="room")
 
-# I want to work on this part
 class Review(Base):
     __tablename__ = 'reviews'
     id = Column(Integer, primary_key=True, index=True)
