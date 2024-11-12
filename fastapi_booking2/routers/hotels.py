@@ -1,3 +1,4 @@
+#from auth.oauth2 import get_current_user
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from db import db_hotels
@@ -28,8 +29,12 @@ def get_hotel(hotel_id: int, db: Session = Depends(get_db)):
 def get_all_hotels(db: Session = Depends(get_db)):
     return db_hotels.get_all_hotels(db)
 
+#  current_user = Depends(get_current_user)
 @router.put("/{hotel_id}", response_model=HotelDisplay)
 def update_hotel(hotel_id: int, hotel: HotelCreate, db: Session = Depends(get_db)):
+    # if not current_user.isAdmin:
+    #     raise HTTPException(403, "You're not allowed to do this")
+    
     return db_hotels.update_hotel(db, hotel_id, hotel)
 
 @router.delete("/{hotel_id}")
