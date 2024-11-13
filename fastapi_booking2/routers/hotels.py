@@ -36,6 +36,8 @@ def update_hotel(hotel_id: int, hotel: HotelCreate, db: Session = Depends(get_db
     return db_hotels.update_hotel(db, hotel_id, hotel)
 
 @router.delete("/{hotel_id}")
-def delete_hotel(hotel_id: int, db: Session = Depends(get_db)):
+def delete_hotel(hotel_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(403, "You're not allowed to do this")
     db_hotels.delete_hotel(db, hotel_id)
     return {"detail": "Hotel deleted successfully"}
