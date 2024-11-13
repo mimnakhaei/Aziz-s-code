@@ -25,7 +25,9 @@ def get_hotel(hotel_id: int, db: Session = Depends(get_db)):
     return hotel
 
 @router.get("/", response_model=List[HotelDisplay])
-def get_all_hotels(db: Session = Depends(get_db)):
+def get_all_hotels(db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(403, "You're not allowed to do this")
     return db_hotels.get_all_hotels(db)
 
 #  
