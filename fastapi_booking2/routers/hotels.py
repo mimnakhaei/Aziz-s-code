@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from db import db_hotels
 from db.database import get_db
 from schemas import HotelCreate, HotelDisplay
-from typing import List
+from typing import List, Optional
 
 router = APIRouter(
     prefix="/hotels",
@@ -26,8 +26,9 @@ def get_hotel(hotel_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Hotel not found")
     return hotel
 
+# there is one function i need to implement Jurgen showd it for filtering
 @router.get("/", response_model=List[HotelDisplay])
-def get_all_hotels(db: Session = Depends(get_db)):
+def get_all_hotels(is_booked_by_user_id: Optional[int] = None, db: Session = Depends(get_db)):
     return db_hotels.get_all_hotels(db)
 
 @router.put("/{hotel_id}", response_model=HotelDisplay)

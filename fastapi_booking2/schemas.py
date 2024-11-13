@@ -41,7 +41,6 @@ class RoomDisplay(RoomBase):
 
 class UserCreate(UserBase):
     password: str
-    is_admin: bool
 
 class UserDisplay(UserBase):
     id: int

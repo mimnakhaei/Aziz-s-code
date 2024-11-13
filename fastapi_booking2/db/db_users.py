@@ -7,7 +7,7 @@ from fastapi import HTTPException, status
 def create_user(db: Session, user: UserCreate):
      
     hashed_password = Hash.bcrypt(user.password)  # Hashing the password
-    db_user = models.User(username=user.username, email=user.email, hashed_password=hashed_password, is_admin=user.is_admin)
+    db_user = models.User(username=user.username, email=user.email, password=hashed_password, is_admin=False)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

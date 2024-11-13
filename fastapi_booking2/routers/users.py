@@ -14,12 +14,7 @@ router = APIRouter(prefix="/users", tags=["Users"])
 # Create user
 @router.post("/", response_model=UserDisplay)
 def create_user(request: UserCreate, db: Session = Depends(get_db)):
-    hashed_password = Hash.bcrypt(request.password)
-    new_user = User(username=request.username, email=request.email, password=hashed_password, is_admin=request.is_admin)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return new_user
+    return db_users.create_user(db, request)
 
 # Get a user
 @router.get("/{id}", response_model=UserDisplay)
@@ -45,10 +40,7 @@ def get_all_users(db: Session = Depends(get_db)):
 # Update user
 @router.put("/{user_id}", response_model=UserDisplay)
 def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
-    #currentlyStored = db_users.get_by_id(db, user_id)
     currentlyStored = db_users.get_user(db, user_id)
-
-
     if not currentlyStored:
         raise HTTPException(404, "User not found")
     
@@ -60,10 +52,6 @@ def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db), c
             raise HTTPException(409, "You're the only admin so you cannot revoke your own admin status")
         
      # Ensure that only the user themselves or an admin can update
-    # if user_id is not currentlyStored.user_id or not current_user.is_admin:
-    #     raise HTTPException(403, 'Not allowed')
-    
-    # return db_users.update_user(db, user_id, user)
     if user_id != currentlyStored.id and not current_user.is_admin:
         raise HTTPException(403, 'Not allowed')
     
@@ -72,6 +60,21 @@ def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db), c
 
 # Delete user
 @router.delete("/{user_id}")
-def delete_user(user_id: int, db: Session = Depends(get_db)):
+def delete_user(user_id: int, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
+    currentlyStored = db_users.get_user(db, user_id)
+    if not currentlyStored:
+        raise HTTPException(404, "User not found")
+    
+    # Check if is_admin status can be changed
+    if not current_user.is_admin:
+        raise HTTPException(403, "Not allowed")
+    
+    if currentlyStored.is_admin:
+        raise HTTPException(400, 'You cannot delete admins')
+    
+     # Ensure that only the super user can allow this
+    if user_id != currentlyStored.id and not current_user.is_admin:
+        raise HTTPException(403, 'Not allowed')
+    
     db_users.delete_user(db, user_id)
     return {"detail": "User deleted successfully"}
