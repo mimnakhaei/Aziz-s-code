@@ -12,7 +12,9 @@ router = APIRouter(
 )
 
 @router.post("/", response_model=HotelDisplay)
-def create_hotel(hotel: HotelCreate, db: Session = Depends(get_db)):
+def create_hotel(hotel: HotelCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(403, "You're not allowed to do this")
     return db_hotels.create_hotel(db, hotel)
 
 
