@@ -24,6 +24,14 @@ def create_user(request: UserCreate, db: Session = Depends(get_db)):
 # Get a user
 @router.get("/{id}", response_model=UserDisplay)
 def get_user(id: int, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
+
+    """_summary_
+    Stimulates retrieving a comment of a blog
+    
+    - **id** Mandatory path parameter
+    - **current_user** for authentication check
+    """
+
     user = db.query(User).filter(User.id == id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
