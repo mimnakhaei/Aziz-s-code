@@ -28,8 +28,8 @@ def get_all_users(db: Session):
     return db.query(models.User).all()
 
 # db_user.get_by_id(user_id)
-def get_by_id(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+# def get_by_id(db: Session, user_id: int):
+#     return db.query(models.User).filter(models.User.id == user_id).first()
 
 # def update_user(db: Session, user_id: int, user: UserCreate):
 def update_user(db: Session, user_id: int, user: UserUpdate):

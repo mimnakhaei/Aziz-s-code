@@ -45,7 +45,9 @@ def get_all_users(db: Session = Depends(get_db)):
 # Update user
 @router.put("/{user_id}", response_model=UserDisplay)
 def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
-    currentlyStored = db_users.get_by_id(db, user_id)
+    #currentlyStored = db_users.get_by_id(db, user_id)
+    currentlyStored = db_users.get_user(db, user_id)
+
 
     if not currentlyStored:
         raise HTTPException(404, "User not found")
