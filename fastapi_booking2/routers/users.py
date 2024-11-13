@@ -72,6 +72,6 @@ def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db), c
 
 # Delete user
 @router.delete("/{user_id}")
-def delete_hotel(user_id: int, db: Session = Depends(get_db)):
+def delete_user(user_id: int, db: Session = Depends(get_db)):
     db_users.delete_user(db, user_id)
     return {"detail": "User deleted successfully"}
