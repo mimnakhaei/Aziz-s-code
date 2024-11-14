@@ -4,6 +4,8 @@ from db import db_rooms
 from db.database import get_db
 from schemas import RoomCreate, RoomDisplay
 from typing import List
+from auth.oauth2 import get_current_user
+from schemas import UserAuth
 
 router = APIRouter(
     prefix="/rooms",
@@ -26,10 +28,10 @@ def get_all_rooms(db: Session = Depends(get_db)):
     return db_rooms.get_all_rooms(db)
 
 @router.put("/{room_id}", response_model=RoomDisplay)
-def update_room(room_id: int, room: RoomCreate, db: Session = Depends(get_db)):
+def update_room(room_id: int, room: RoomCreate, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
     return db_rooms.update_room(db, room_id, room)
 
 @router.delete("/{room_id}")
-def delete_room(room_id: int, db: Session = Depends(get_db)):
+def delete_room(room_id: int, db: Session = Depends(get_db), current_user: UserAuth = Depends(get_current_user)):
     db_rooms.delete_room(db, room_id)
     return {"detail": "Room deleted successfully"}
