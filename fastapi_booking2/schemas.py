@@ -10,6 +10,9 @@ class ReviewCreate(ReviewBase):
     user_id: int
     room_id: int
 
+class ReviewUpdate(BaseModel):
+    content: str
+
 class ReviewDisplay(ReviewBase):
     id: int
     user: 'UserBase'
