@@ -15,6 +15,8 @@ def get_booking(db: Session, booking_id: int):
 def get_all_bookings(db: Session):
     return db.query(models.Booking).all()
 
+# we need update_booking function here
+
 def delete_booking(db: Session, booking_id: int):
     db_booking = get_booking(db, booking_id)
     if db_booking:

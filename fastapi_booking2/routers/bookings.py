@@ -25,6 +25,8 @@ def get_booking(booking_id: int, db: Session = Depends(get_db)):
 def get_all_bookings(db: Session = Depends(get_db)):
     return db_bookings.get_all_bookings(db)
 
+# We need update router here.
+
 @router.delete("/{booking_id}")
 def delete_booking(booking_id: int, db: Session = Depends(get_db)):
     db_bookings.delete_booking(db, booking_id)
