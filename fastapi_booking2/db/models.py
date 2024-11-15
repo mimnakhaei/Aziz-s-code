@@ -58,3 +58,16 @@ class Booking(Base):
     
     user = relationship("User", back_populates="bookings")
     room = relationship("Room", back_populates="bookings")
+
+
+# مدل Wishlist
+class Wishlist(Base):
+    __tablename__ = 'wishlist'
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    hotel_id = Column(Integer, ForeignKey('hotels.id'), nullable=False)
+    added_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", back_populates="wishlist")
+    hotel = relationship("Hotel", back_populates="wishlist_entries")
